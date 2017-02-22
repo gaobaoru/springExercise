@@ -4,9 +4,67 @@
     #*
     多行注释
     *#
+
     $!{value1}
-    $!{value2}#单行注释，不存在为空
-    $!{value3}
+
+    $!{value2}##单行注释，不存在强制为空
+
+    ${value3} ##没有!，不能强制为空，输出该文本
+
+    ##显示颜色
+
+    colors: $!{colors}
+
+    #foreach($color in $colors)
+        This is Color $!{foreach.index}: $color, $!{foreach.count}
+    #end
+
+    ##map中的相应方法可以在模板中调用
+
+    #foreach($key in $map.keySet())
+        Number : $key, Value : $map.get($key)
+    #end
+
+    #foreach($kv in $map.entrySet())
+        Number : $kv.key, Value : $kv.value
+    #end
+
+    ##演示User类中get名字与方法调用相同
+
+    User : $!{user.name}
+    $!{user.Something}
+    $!{user.getSomething()}
+
+    ##定义变量,注意：set变量用括号，不是花括号
+
+    #set($title = "gaobaoru_title")
+    Title : $title
+
+    ##区分parse 和 include
+
+    Parse : #parse("header.html")
+    Include : #include("header.html")
+
+    ##宏的定义和调用
+
+    #macro(render_color, $index, $color)
+        Color Render Color $index, $color
+    #end
+
+    #foreach($color in $colors)
+        #render_color($foreach.index, $color)
+    #end
+
+    ##变量的赋值以及单引号与双引号的区别
+
+    #set($hello = "Hello")
+    $!hello
+    #set($helloworld1 = "$!{hello} world")
+    $helloworld1
+    #set($helloworld2 = '$!{hello} world')
+    $helloworld2
+
+
 </pre>
 </body>
 </html>
